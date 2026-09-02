@@ -32,6 +32,9 @@ impl ItemInteractionData {
                 request_changed_slots.push(InventoryTransactionChangedSlotsHack::read(stream));
             }
         }
+        // İki dummy optional bool, sonra eylem dizisi ve gövde.
+        let _ = stream.get_bool();
+        let _ = stream.get_bool();
         let mut tr_data = TransactionData::UseItem(UseItemTransactionData::null());
         tr_data.decode(stream);
 
@@ -57,6 +60,9 @@ impl ItemInteractionData {
                 slots.write(stream);
             }
         }
+        // İki dummy optional bool, sonra eylem dizisi ve gövde.
+        stream.put_bool(true);
+        stream.put_bool(true);
         let tr_data = TransactionData::UseItem(self.tr_data.clone());
         tr_data.encode(stream);
     }
